@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  maxiam-dev:
+    image: kuldipsharma/maxiam:latest
+    container_name: maxiam-dev
+    hostname: maxiam-dev
+    ports:
+      - "8092:8092"
+    environment:
+      CERT_PASSWORD: "${CERT_PFX_PASSWORD}"
+      ASPNETCORE_HTTPS_PORTS: "8092"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/app/certs/maxiam-dev.pfx"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "Pass@123"
+      ConnectionStrings__DefaultConnection: "${ConnectionStrings__MaxiamConnection}"
+      BaseAddress: "${BaseAddress}"
+    volumes:
+      - ${AGENT_TEMPDIRECTORY}/maxiam-dev.pfx:/app/certs/maxiam-dev.pfx
+    restart: always
